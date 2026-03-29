@@ -6,7 +6,7 @@ export default function Logs() {
 
   useEffect(() => {
   const fetchLogs = () => {
-    axios.get("https://secure-backend.onrender.com/logs")
+    axios.get("https://secure-backend-3iuz.onrender.com/logs")
       .then(res => setLogs(res.data));
   };
 

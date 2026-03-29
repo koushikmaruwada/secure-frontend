@@ -10,7 +10,7 @@ export default function QueryForm({ setResult }) {
     setLoading(true);
 
     try {
-      const res = await axios.post("https://secure-backend.onrender.com/query", { query });
+      const res = axios.post("https://secure-backend-3iuz.onrender.com/query", { query });
       setResult(res.data);
     } catch (err) {
       console.error(err);

@@ -7,7 +7,7 @@ export default function Login({ setLoggedIn }) {
 
   const login = async () => {
     try {
-      const res = await axios.post("https://secure-backend.onrender.com/login", {
+      const res = axios.post("https://secure-backend-3iuz.onrender.com/login", {
         username: user,
         password: pass,
       });
