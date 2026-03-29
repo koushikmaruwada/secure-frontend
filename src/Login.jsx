@@ -7,24 +7,54 @@ export default function Login({ setLoggedIn }) {
 
   const login = async () => {
     try {
-      const res = axios.post("https://secure-backend-3iuz.onrender.com/login", {
-        username: user,
-        password: pass,
-      });
+      const res = await axios.post(
+        "https://secure-backend-3iuz.onrender.com/login",
+        {
+          username: user,   // ✅ IMPORTANT
+          password: pass,   // ✅ IMPORTANT
+        }
+      );
+
+      console.log("Response:", res.data); // 🔍 debug
 
       if (res.data.status === "success") {
-        setLoggedIn(true);
+        setLoggedIn(true);   // ✅ THIS OPENS DASHBOARD
+      } else {
+        alert("Login failed");
       }
-    } catch {
-      alert("Login failed");
+
+    } catch (err) {
+      console.error(err);
+      alert("Server error");
     }
   };
 
   return (
-    <div>
-      <h2>🔐 Login</h2>
-      <input placeholder="Username" onChange={(e) => setUser(e.target.value)} />
-      <input placeholder="Password" type="password" onChange={(e) => setPass(e.target.value)} />
+    <div style={{
+      background: "black",
+      color: "#00ff9f",
+      height: "100vh",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "center",
+      fontFamily: "monospace"
+    }}>
+      <h2>🔐 LOGIN</h2>
+
+      <input
+        placeholder="Username"
+        onChange={(e) => setUser(e.target.value)}
+        style={{ margin: "10px", padding: "10px" }}
+      />
+
+      <input
+        type="password"
+        placeholder="Password"
+        onChange={(e) => setPass(e.target.value)}
+        style={{ margin: "10px", padding: "10px" }}
+      />
+
       <button onClick={login}>Login</button>
     </div>
   );
