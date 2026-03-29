@@ -6,18 +6,24 @@ export default function QueryForm({ setResult }) {
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
+  e.preventDefault();
+  setLoading(true);
 
-    try {
-      const res = axios.post("https://secure-backend-3iuz.onrender.com/query", { query });
-      setResult(res.data);
-    } catch (err) {
-      console.error(err);
-    }
+  try {
+    const res = await axios.post(
+      "https://secure-backend-3iuz.onrender.com/query",
+      { query }
+    );
 
-    setLoading(false);
-  };
+    console.log("RESPONSE:", res.data); // 🔍 debug
+    setResult(res.data);
+
+  } catch (err) {
+    console.error(err);
+  }
+
+  setLoading(false);
+};
 
   return (
     <div>
