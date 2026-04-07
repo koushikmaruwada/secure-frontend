@@ -3,24 +3,24 @@ export default function ResultCard({ result }) {
     <div style={styles.card}>
       <h2>🔍 Query Result</h2>
 
-      {/* 🔥 HANDLE ARRAY RESULTS */}
-      {Array.isArray(result.data) ? (
-        result.data.map((item, index) => (
-          <div key={index} style={{ marginBottom: "10px" }}>
-            {typeof item === "object" ? (
-              Object.entries(item).map(([key, value]) => (
-                <p key={key}>
-                  <strong>{key}:</strong> {value}
-                </p>
-              ))
-            ) : (
-              <p>{item}</p>
-            )}
-          </div>
-        ))
-      ) : (
-        <p>{result.data}</p>
-      )}
+      {/* SAFE RENDER */}
+{result?.data && (
+  Array.isArray(result.data) ? (
+    result.data.map((item, index) => (
+      <div key={index}>
+        {typeof item === "object" ? (
+          Object.entries(item).map(([k, v]) => (
+            <p key={k}><strong>{k}:</strong> {v}</p>
+          ))
+        ) : (
+          <p>{item}</p>
+        )}
+      </div>
+    ))
+  ) : (
+    <p>{result.data}</p>
+  )
+)}
 
       <p><strong>Privacy Score:</strong> {result.privacy_score}%</p>
       <p><strong>Risk:</strong> {result.risk}</p>
