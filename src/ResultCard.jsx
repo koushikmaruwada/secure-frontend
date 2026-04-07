@@ -37,5 +37,10 @@ const styles = {
     padding: "25px",
     backgroundColor: "#1e293b",
     borderRadius: "12px",
+
+    // 🔥 ADD THESE HERE
+    border: "1px solid #00ff9f",
+    boxShadow: "0 0 10px #00ff9f",
+    boxShadow: "0 0 20px #00ff9f"
   },
 };
