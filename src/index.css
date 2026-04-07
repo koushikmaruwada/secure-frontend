@@ -168,3 +168,18 @@ button:hover {
   background: #00ff9f;
   color: black;
 }
+button {
+  background: black;
+  color: #00ff9f;
+  border: 1px solid #00ff9f;
+  box-shadow: 0 0 10px #00ff9f;
+  padding: 10px;
+  cursor: pointer;
+}
+
+input {
+  background: black;
+  color: #00ff9f;
+  border: 1px solid #00ff9f;
+  padding: 8px;
+}
