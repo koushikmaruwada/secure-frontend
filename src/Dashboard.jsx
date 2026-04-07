@@ -20,7 +20,10 @@ export default function Dashboard() {
 
     // 🔥 UPDATED CHARACTERS (JAPANESE + NUMBERS)
     const chars = "アカサタナハマヤラワ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    const fontSize = 14;
+    const isMobile = window.innerWidth < 768;
+
+const fontSize = isMobile ? 10 : 14;        // smaller on mobile
+const speed = isMobile ? 80 : 50; 
     const columns = Math.floor(canvas.width / fontSize);
 
     const drops = Array(columns).fill(1);
@@ -45,7 +48,9 @@ export default function Dashboard() {
         drops[i]++;
       });
 
-      animationFrameId = requestAnimationFrame(draw);
+      setTimeout(() => {
+  animationFrameId = requestAnimationFrame(draw);
+}, speed);
     }
 
     draw();
