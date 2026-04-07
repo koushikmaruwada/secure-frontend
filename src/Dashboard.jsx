@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
 import QueryForm from "./QueryForm";
 import ResultCard from "./ResultCard";
@@ -17,16 +17,22 @@ export default function Dashboard() {
     try {
       await axios.post(
         "https://secure-backend-3iuz.onrender.com/upload",
-        formData
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
 
-      alert("✅ File uploaded & encrypted!");
+      alert("✅ File uploaded successfully!");
     } catch (err) {
       console.error(err);
-      alert("Upload failed");
+      alert("❌ Upload failed");
     }
   };
 
+  // ✅ RETURN MUST BE HERE (outside functions)
   return (
     <div
       style={{
