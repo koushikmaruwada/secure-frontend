@@ -1,32 +1,29 @@
-import ChartComponent from "./ChartComponent";
-
 export default function ResultCard({ result }) {
   return (
     <div style={styles.card}>
       <h2>🔍 Query Result</h2>
 
-      {/* 🔥 Handle multiple results */}
+      {/* 🔥 HANDLE ARRAY RESULTS */}
       {Array.isArray(result.data) ? (
         result.data.map((item, index) => (
-          <p key={index}>
-            <strong>Result {index + 1}:</strong> {item}
-          </p>
+          <div key={index} style={{ marginBottom: "10px" }}>
+            {typeof item === "object" ? (
+              Object.entries(item).map(([key, value]) => (
+                <p key={key}>
+                  <strong>{key}:</strong> {value}
+                </p>
+              ))
+            ) : (
+              <p>{item}</p>
+            )}
+          </div>
         ))
       ) : (
-        <p>
-          <strong>Data:</strong> {result.data}
-        </p>
+        <p>{result.data}</p>
       )}
 
-      <p>
-        <strong>Privacy Score:</strong> {result.privacy_score}%
-      </p>
-
-      <ChartComponent score={result.privacy_score} />
-
-      <p>
-        <strong>Risk:</strong> {result.risk}
-      </p>
+      <p><strong>Privacy Score:</strong> {result.privacy_score}%</p>
+      <p><strong>Risk:</strong> {result.risk}</p>
     </div>
   );
 }
@@ -37,10 +34,7 @@ const styles = {
     padding: "25px",
     backgroundColor: "#1e293b",
     borderRadius: "12px",
-
-    // 🔥 ADD THESE HERE
     border: "1px solid #00ff9f",
     boxShadow: "0 0 10px #00ff9f",
-    boxShadow: "0 0 20px #00ff9f"
   },
 };

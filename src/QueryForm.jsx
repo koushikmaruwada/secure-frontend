@@ -5,25 +5,25 @@ export default function QueryForm({ setResult }) {
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // 🔥 THIS IS WHERE YOU ADD TRY-CATCH
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  setLoading(true);
+    e.preventDefault();
+    setLoading(true);
 
-  try {
-    const res = await axios.post(
-      "https://secure-backend-3iuz.onrender.com/query",
-      { query }
-    );
+    try {
+      const res = await axios.post(
+        "https://secure-backend-3iuz.onrender.com/query",
+        { query }
+      );
 
-    console.log("RESPONSE:", res.data); // 🔍 debug
-    setResult(res.data);
+      setResult(res.data); // ✅ update UI
+    } catch (err) {
+      console.error(err);
+      alert("Server error");
+    }
 
-  } catch (err) {
-    console.error(err);
-  }
-
-  setLoading(false);
-};
+    setLoading(false);
+  };
 
   return (
     <div>
@@ -31,12 +31,11 @@ export default function QueryForm({ setResult }) {
         <input
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Enter user1 / user2"
+          placeholder="Enter query"
         />
         <button type="submit">Search</button>
       </form>
 
-      {/* ✅ Loading message INSIDE return */}
       {loading && (
         <p style={{ color: "#00ff9f", marginTop: "10px" }}>
           ⏳ Processing...
