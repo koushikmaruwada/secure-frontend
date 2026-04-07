@@ -1,55 +1,57 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import QueryForm from "./QueryForm";
 import ResultCard from "./ResultCard";
 import Logs from "./Logs";
-import { useRef, useEffect } from "react";
+
 export default function Dashboard() {
   const [result, setResult] = useState(null);
+  const canvasRef = useRef(null);
 
   // 🔥 MATRIX BACKGROUND
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
 
+    const ctx = canvas.getContext("2d");
 
-const canvasRef = useRef(null);
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 
-useEffect(() => {
-  const canvas = canvasRef.current;
-  if (!canvas) return;
+    // 🔥 UPDATED CHARACTERS (JAPANESE + NUMBERS)
+    const chars = "アカサタナハマヤラワ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const fontSize = 14;
+    const columns = Math.floor(canvas.width / fontSize);
 
-  const ctx = canvas.getContext("2d");
+    const drops = Array(columns).fill(1);
 
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+    let animationFrameId;
 
-  const chars = "01ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  const fontSize = 14;
-  const columns = Math.floor(canvas.width / fontSize);
+    function draw() {
+      ctx.fillStyle = "rgba(0,0,0,0.05)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  const drops = Array(columns).fill(1);
+      ctx.fillStyle = "#00ff9f";
+      ctx.font = fontSize + "px monospace";
 
-  function draw() {
-    ctx.fillStyle = "rgba(0,0,0,0.05)";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+      drops.forEach((y, i) => {
+        const text = chars[Math.floor(Math.random() * chars.length)];
+        ctx.fillText(text, i * fontSize, y * fontSize);
 
-    ctx.fillStyle = "#00ff9f";
-    ctx.font = fontSize + "px monospace";
+        if (y * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
 
-    drops.forEach((y, i) => {
-      const text = chars[Math.floor(Math.random() * chars.length)];
-      ctx.fillText(text, i * fontSize, y * fontSize);
+        drops[i]++;
+      });
 
-      if (y * fontSize > canvas.height && Math.random() > 0.975) {
-        drops[i] = 0;
-      }
+      animationFrameId = requestAnimationFrame(draw);
+    }
 
-      drops[i]++;
-    });
-  }
+    draw();
 
-  const interval = setInterval(draw, 50);
-
-  return () => clearInterval(interval);
-}, []);
+    return () => cancelAnimationFrame(animationFrameId);
+  }, []);
 
   // 🔥 FILE UPLOAD
   const handleFileUpload = async (e) => {
@@ -66,7 +68,8 @@ useEffect(() => {
         }
       );
       alert("✅ Uploaded");
-    } catch {
+    } catch (err) {
+      console.error(err);
       alert("❌ Upload failed");
     }
   };
@@ -76,13 +79,13 @@ useEffect(() => {
       {/* 🔥 MATRIX CANVAS */}
       <canvas
         ref={canvasRef}
-  style={{
-    position: "fixed",
-    top: 0,
-    left: 0,
-    width: "100%",
-    height: "100%",
-    zIndex: 0,
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          zIndex: 0,
         }}
       />
 
@@ -99,7 +102,7 @@ useEffect(() => {
         }}
       >
         <h1 style={{ textShadow: "0 0 10px #00ff9f" }}>
-          ⚡ SECURE AI TERMINAL
+          ⚡ [ ACCESS GRANTED ] SECURE AI TERMINAL
         </h1>
 
         {/* Upload */}
