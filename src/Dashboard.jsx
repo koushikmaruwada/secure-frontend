@@ -3,53 +3,53 @@ import axios from "axios";
 import QueryForm from "./QueryForm";
 import ResultCard from "./ResultCard";
 import Logs from "./Logs";
-
+import { useRef, useEffect } from "react";
 export default function Dashboard() {
   const [result, setResult] = useState(null);
 
   // 🔥 MATRIX BACKGROUND
-  useEffect(() => {
-    const canvas = document.getElementById("matrix");
-    if (!canvas) return;
 
-    const ctx = canvas.getContext("2d");
 
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+const canvasRef = useRef(null);
 
-    const chars = "01ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    const fontSize = 14;
-    const columns = Math.floor(canvas.width / fontSize);
+useEffect(() => {
+  const canvas = canvasRef.current;
+  if (!canvas) return;
 
-    const drops = Array(columns).fill(1);
+  const ctx = canvas.getContext("2d");
 
-    let animation;
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
 
-    function draw() {
-      ctx.fillStyle = "rgba(0,0,0,0.05)";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+  const chars = "01ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const fontSize = 14;
+  const columns = Math.floor(canvas.width / fontSize);
 
-      ctx.fillStyle = "#00ff9f";
-      ctx.font = fontSize + "px monospace";
+  const drops = Array(columns).fill(1);
 
-      drops.forEach((y, i) => {
-        const text = chars[Math.floor(Math.random() * chars.length)];
-        ctx.fillText(text, i * fontSize, y * fontSize);
+  function draw() {
+    ctx.fillStyle = "rgba(0,0,0,0.05)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        if (y * fontSize > canvas.height && Math.random() > 0.975) {
-          drops[i] = 0;
-        }
+    ctx.fillStyle = "#00ff9f";
+    ctx.font = fontSize + "px monospace";
 
-        drops[i]++;
-      });
+    drops.forEach((y, i) => {
+      const text = chars[Math.floor(Math.random() * chars.length)];
+      ctx.fillText(text, i * fontSize, y * fontSize);
 
-      animation = requestAnimationFrame(draw);
-    }
+      if (y * fontSize > canvas.height && Math.random() > 0.975) {
+        drops[i] = 0;
+      }
 
-    draw();
+      drops[i]++;
+    });
+  }
 
-    return () => cancelAnimationFrame(animation);
-  }, []);
+  const interval = setInterval(draw, 50);
+
+  return () => clearInterval(interval);
+}, []);
 
   // 🔥 FILE UPLOAD
   const handleFileUpload = async (e) => {
@@ -75,12 +75,14 @@ export default function Dashboard() {
     <>
       {/* 🔥 MATRIX CANVAS */}
       <canvas
-        id="matrix"
-        style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          zIndex: 0,
+        ref={canvasRef}
+  style={{
+    position: "fixed",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    zIndex: 0,
         }}
       />
 
