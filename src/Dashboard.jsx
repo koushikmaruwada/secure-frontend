@@ -106,9 +106,18 @@ const speed = isMobile ? 80 : 50;
           fontFamily: "monospace",
         }}
       >
-        <h1 style={{ textShadow: "0 0 10px #00ff9f" }}>
-          ⚡ [ ACCESS GRANTED ] SECURE AI TERMINAL
-        </h1>
+        <h1
+  style={{
+    textShadow: "0 0 15px #00ff9f",
+    letterSpacing: "4px",
+    lineHeight: "1.6",
+    textAlign: "center",
+    fontSize: "2.5rem",
+  }}
+>
+  ⚡ [ ACCESS GRANTED ] <br />
+  SECURE AI TERMINAL
+</h1>
 
         {/* Upload */}
         <div style={{ marginBottom: "20px" }}>
